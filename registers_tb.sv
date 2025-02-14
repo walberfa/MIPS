@@ -19,7 +19,7 @@ module reg32_tb;
     logic [4:0] write_register, read_register1, read_register2;
     logic RegWrite, clk, rst;
 
-register_file32 regx(
+registers regx(
     .write_data(write_data), 
     .write_register(write_register), 
     .RegWrite(RegWrite), 

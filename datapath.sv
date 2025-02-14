@@ -4,12 +4,13 @@ module datapath(
     input logic [31:0] instruction, write_data,
     input logic ALUScr, RegWrite, RegDst,
     input logic [3:0] ALUControl,
-    output logic [31:0] ALUResult,
+    input logic clk, rst,
+    output logic [31:0] ALUResult, out32,
     output logic Zero
 );
 
 logic [4:0] mux1_output;
-logic [31:0] scrA, scrB, w_scrB, out32;
+logic [31:0] scrA, scrB, w_scrB;
 
     registers registers_inst(
         .read_register1(instruction[25:21]),
@@ -17,6 +18,8 @@ logic [31:0] scrA, scrB, w_scrB, out32;
         .write_register(mux1_output),
         .write_data(write_data),
         .RegWrite(RegWrite),
+        .clk(clk), 
+        .rst(rst), 
         .read_data1(scrA),
         .read_data2(w_scrB)
     );
