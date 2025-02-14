@@ -9,16 +9,16 @@ module ALU(
   
   begin
 
-   case(ULAControl)
-        4'b0000 : ULAResult = scrA & scrB;    // AND
-        4'b0001 : ULAResult = scrA | scrB;    // OR
-        4'b0010 : ULAResult = scrA + scrB;    // Adição *******
-        4'b0110 : ULAResult = scrA - scrB;    // Subtração ****
-        4'b0111 : ULAResult = scrA < scrB;    // Menor que
-        4'b1100 : ULAResult = ~(scrA | scrB); // NOR
+   case(ALUControl)
+        4'b0000 : ALUResult = scrA & scrB;    // AND
+        4'b0001 : ALUResult = scrA | scrB;    // OR
+        4'b0010 : ALUResult = scrA + scrB;    // Adição *******
+        4'b0110 : ALUResult = scrA - scrB;    // Subtração ****
+        4'b0111 : ALUResult = scrA < scrB;    // Menor que
+        4'b1100 : ALUResult = ~(scrA | scrB); // NOR
     endcase
 
-    if (ULAResult == 32'b0) Zero = 1;
+    if (ALUResult == 32'b0) Zero = 1;
     else Zero = 0;
   end
     

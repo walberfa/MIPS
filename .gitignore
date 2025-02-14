@@ -1,3 +1,6 @@
+/.simvision
+/waves.shm
 /xcelium.d
 *.log
 *.history
+*.key

@@ -37,10 +37,9 @@ module data_memory (
     MUX que seleciona a saída da memória ou da ALU. 
     Se MemtoReg estiver ativo, a saída vem da memória, caso contrário, da ALU.
     */
-    if (MemtoReg) begin
-            read_data = data_from_mem;
-        end else begin
-            read_data = data_from_alu;
-        end
+    always_comb begin
+        if (MemtoReg) read_data = data_from_mem;
+        else read_data = data_from_alu;
+    end
 
 endmodule

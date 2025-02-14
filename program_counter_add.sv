@@ -10,6 +10,10 @@ module program_counter_add(
     logic [31:0] add_result;
     logic [31:0] mux_output;
 
+    always_ff @(posedge rst) begin
+        pc <= 0;
+    end
+    
     assign pc_plus_4 = pc + 4;
     assign shift_left_2 = shift_left_in << 2;
 
