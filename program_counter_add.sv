@@ -1,7 +1,7 @@
 module program_counter_add(
     input logic [31:0] shift_left_in,
     input logic Branch,
-    input logic Zero,
+    input logic Zero, rst, clk,
     output logic [31:0] pc
 );
 
@@ -10,8 +10,12 @@ module program_counter_add(
     logic [31:0] add_result;
     logic [31:0] mux_output;
 
-    always_ff @(posedge rst) begin
-        pc <= 0;
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            pc <= 32'b0;
+        end else begin
+            pc <= mux_output;
+        end
     end
     
     assign pc_plus_4 = pc + 4;
@@ -22,8 +26,6 @@ module program_counter_add(
     always_comb begin
         if (Branch && Zero) mux_output = add_result;
         else mux_output = pc_plus_4;
-
-        pc = mux_output;
     end
 
 endmodule

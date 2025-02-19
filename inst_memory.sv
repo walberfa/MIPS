@@ -17,7 +17,6 @@ module instr_memory (
         memory[5] = 32'hAC04000C; // SW $4, 12($0)   ; Armazena o valor do registrador $4 na memória no endereço 12
         memory[6] = 32'h10620001; // BEQ $3, $2, 1   ; Se os valores dos registradores $3 e $2 forem iguais, desvia para a instrução no endereço 8
         memory[7] = 32'h08000000; // J 0             ; Salta para a instrução no endereço 0 (loop infinito)
-        // Adicione mais instruções conforme necessário
     end
 
     // Lê a instrução da memória na posição especificada por read_address

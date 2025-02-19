@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module registers (
         input logic [31:0] write_data,
         input logic [4:0] read_register1, read_register2, write_register,

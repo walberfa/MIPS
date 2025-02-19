@@ -58,6 +58,8 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
         .shift_left_in(out32),
         .Branch(Branch),
         .Zero(Zero),
+        .rst(rst),
+        .clk(clk),
         .pc(pc)
     );
 
