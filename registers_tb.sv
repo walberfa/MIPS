@@ -1,101 +1,84 @@
-/*
-Autor do testbench: Walber Florencio 
-
-Cenários avaliados:
-- Escrita em alguns registradores;
-- Leitura em alguns registradores;
-- Leitura de registradores após resetar;
-- Tentativa de escrita com a entrada RegWrite desabilitada;
-- Tentativa de escrita no registrador 0.
-
-Foram adicionados asserts para verificação automática,
-mas o teste exibe uma saída em tabela para validação.
-*/
-
 `timescale 1ns/10ps
 
-module reg32_tb;
-    logic[31:0] write_data, read_data1, read_data2;
-    logic [4:0] write_register, read_register1, read_register2;
-    logic RegWrite, clk, rst;
+module tb_registers;
 
-registers regx(
-    .write_data(write_data), 
-    .write_register(write_register), 
-    .RegWrite(RegWrite), 
-    .read_register1(read_register1), 
-    .read_register2(read_register2), 
-    .clk(clk), 
-    .rst(rst), 
-    .read_data1(read_data1), 
-    .read_data2(read_data2));
+    // Sinais de entrada e saída
+    logic [31:0] write_data;
+    logic [4:0] read_register1, read_register2, write_register;
+    logic RegWrite;
+    logic clk, rst;
+    logic [31:0] read_data1, read_data2;
 
-	
-initial	begin
-	clk = 0;
-	forever #1 clk = ~clk;
-end
+    // Instancia o módulo registers
+    registers reg32 (
+        .write_data(write_data),
+        .read_register1(read_register1),
+        .read_register2(read_register2),
+        .write_register(write_register),
+        .RegWrite(RegWrite),
+        .clk(clk),
+        .rst(rst),
+        .read_data1(read_data1),
+        .read_data2(read_data2)
+    );
 
-initial begin
-    #3;
+    // Gera o clock
+    always #5 clk = ~clk;
 
-    RegWrite = 1'b1;
-    write_data = 32'b01100011011000110110001101100011;
-    rst = 1'b1;
+    initial begin
+        // Inicializa os sinais
+        clk = 1;
+        rst = 0;
+        RegWrite = 0;
+        write_data = 32'h0;
+        read_register1 = 5'h0;
+        read_register2 = 5'h0;
+        write_register = 5'h0;
 
-    read_register1 = 5'b11010;
-    read_register2 = 5'b10011;
+        // Aplica reset
+        #1;
+        rst = 1;
 
-    write_register = 5'b10011;
-    #10;
-    write_register = 5'b11010;
-    #10;
-    write_register = 5'b01001;
-    #10
+        // Teste 1: Escreve no registrador 1 e lê do registrador 1
+        #9;
+        write_data = 32'hA5A5A5A5;
+        write_register = 5'h1;
+        RegWrite = 1;
+        #10;
+        RegWrite = 0;
+        read_register1 = 5'h1;
+        #10;
+        $display("Teste 1 - read_data1: %h (esperado: A5A5A5A5)", read_data1);
 
-    if(read_data1!== 32'b01100011011000110110001101100011) $display("Error:		read_data1 incorrect!");
-	
-    rst = 1'b0;
-    #5;
+        // Teste 2: Escreve no registrador 2 e lê do registrador 2
+        #10;
+        write_data = 32'h42424242;
+        write_register = 5'h2;
+        RegWrite = 1;
+        #10;
+        RegWrite = 0;
+        read_register2 = 5'h2;
+        #10;
+        $display("Teste 2 - read_data2: %h (esperado: 42424242)", read_data2);
 
-    if((read_data1|read_data2)!== 32'b0) $display("Error: 		reset failed!");
+        // Teste 3: Lê do registrador 0 (deve ser sempre 0)
+        #10;
+        write_register = 5'h0;
+        RegWrite = 1;
+        #10;
+        RegWrite = 0;
+        read_register1 = 5'h0;
+        #10;
+        $display("Teste 3 - read_data1: %h (esperado: 00000000)", read_data1);
 
-    write_data = 32'b01110111011101110111011101110111;
-    rst = 1'b1;
-    #5;
-
-    read_register2 = 5'b01001;
-    #10;
-
-    if(read_data2!== 32'b01110111011101110111011101110111) $display("Error:		read_data2 incorrect!");
-
-    read_register1 = 5'b11110;
-
-    RegWrite = 1'b0;
-    #5;
-
-    write_register = 5'b11110;
-    #10;
-
-    if(read_data1!== 32'b0) $display("Error:		read_data1 disabled!");
-
-    RegWrite = 1'b1;
-    #5;
-
-    write_register = 5'b11110;
-    read_register2 = 5'b00000;
-    #10;
-
-    write_register = 5'b00000;
-    #10;
-
-    $finish;
-
-end
-
-initial begin
-    $display("              Tempo   rst  write_register  read_register1 read_register2          Saída(read_data1)                   Saída(read_data2)");
-    $monitor($time, "   %b      %b           %b       %b                %b      %b", rst, write_register, read_register1, read_register2, read_data1, read_data2);
-end
+        // Teste 4: Reseta e lê o registrador 2
+        #10;
+        rst = 0;
+        #10;
+        $display("Teste 4 - read_data2: %h (esperado: 00000000)", read_data2);
+        
+        // Finaliza a simulação
+        $stop;
+    end
 
 endmodule

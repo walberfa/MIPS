@@ -1,3 +1,5 @@
+`timescale  1ns/10ps
+
 module ALU(
     input logic [31:0] scrA, scrB,
     input logic [3:0] ALUControl,
@@ -5,9 +7,7 @@ module ALU(
     output logic Zero
 );
 
-  always_comb
-  
-  begin
+  always_comb begin
 
    case(ALUControl)
         4'b0000 : ALUResult = scrA & scrB;    // AND

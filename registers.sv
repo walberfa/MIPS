@@ -28,7 +28,7 @@ module registers (
 
 
     //Lógica para habilitar escrita nos registradores
-    always_ff @ (posedge clk) begin
+    always_comb begin
         en = 32'd0;
 
         if(RegWrite) begin    
