@@ -1,7 +1,7 @@
 # MIPS
 Microprocessor without interlocked pipeline stages (MIPS), sendo desenvolvido na disciplina de Arquitetura e Organização de Computadores, no curso de Especialização em Microeletrônica
 
-![A-Simplified-MIPS-Processor-Architecture](https://github.com/user-attachments/assets/a8ed6f78-aaac-46fb-963e-7d64da6194f1)
+![A-Simplified-MIPS-Processor-Architecture](https://github.com/user-attachments/assets/6799fcf6-d967-4493-ac08-fcc8a3e96431)
 
 
 - [x] Register File
