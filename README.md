@@ -3,7 +3,6 @@ Microprocessor without interlocked pipeline stages (MIPS), sendo desenvolvido na
 
 ![A-Simplified-MIPS-Processor-Architecture](https://github.com/user-attachments/assets/6799fcf6-d967-4493-ac08-fcc8a3e96431)
 
-
 - [x] Register File
 - [x] ULA
 - [x] ULAControl
