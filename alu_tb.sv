@@ -1,3 +1,5 @@
+`timescale  1ns/10ps
+
 module ALU_tb();
     logic [31:0] scrA, scrB;
     logic [3:0] ALUControl;

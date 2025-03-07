@@ -1,3 +1,5 @@
+`timescale 1ns/10ps
+
 module data_memory (
     input logic [31:0] address,
     input logic [31:0] write_data,
@@ -5,6 +7,7 @@ module data_memory (
     input logic MemWrite,
     input logic MemtoReg,
     input logic rst,
+    input logic clk,
     output logic [31:0] read_data
 );
 
@@ -22,7 +25,7 @@ module data_memory (
         end
     end
     
-    always_ff @(posedge MemRead or posedge MemWrite) begin
+    always_ff @(posedge clk) begin
         if (MemWrite) begin
             // Escreve o dado na memória na posição especificada por address
             memory[address] <= write_data;
@@ -38,8 +41,10 @@ module data_memory (
     Se MemtoReg estiver ativo, a saída vem da memória, caso contrário, da ALU.
     */
     always_comb begin
-        if (MemtoReg) read_data = data_from_mem;
-        else read_data = data_from_alu;
+        if (rst) read_data = 32'b0;
+        else
+            if (MemtoReg) read_data = data_from_mem;
+            else read_data = data_from_alu;
     end
 
 endmodule

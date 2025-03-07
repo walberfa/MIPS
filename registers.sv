@@ -16,7 +16,7 @@ module registers (
     generate
         for (i = 0; i < 32; i++) begin
             if (i==0)
-                register32 reg0(.write_data(write_data), .en(en[0]), .clk(clk), .rst(1'b0),.data(data[0])); // Registrador 0 não permite ser escrito
+                register32 reg0(.write_data(write_data), .en(en[0]), .clk(clk), .rst(1'b1),.data(data[0])); // Registrador 0 não permite ser escrito
             else
                 register32 regx(.write_data(write_data), .en(en[i]), .clk(clk), .rst(rst), .data(data[i])); // Cria os outros 31 registradores
         end
@@ -48,8 +48,8 @@ module register32(
     );
 
     always_ff @ (posedge clk) begin
-        if (rst&en) data = write_data;
-        else if (rst&~en) data = data;
+        if (~rst&en) data = write_data;
+        else if (~rst&~en) data = data;
         else data = 'd0;
     end
 

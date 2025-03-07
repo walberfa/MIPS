@@ -27,7 +27,7 @@ module tb_registers;
 
     initial begin
         // Inicializa os sinais
-        clk = 1;
+        clk = 0;
         rst = 0;
         RegWrite = 0;
         write_data = 32'h0;
@@ -38,9 +38,11 @@ module tb_registers;
         // Aplica reset
         #1;
         rst = 1;
+        #9;
+        rst = 0;
+        $display("Iniciando testes...");
 
         // Teste 1: Escreve no registrador 1 e lê do registrador 1
-        #9;
         write_data = 32'hA5A5A5A5;
         write_register = 5'h1;
         RegWrite = 1;
@@ -48,9 +50,19 @@ module tb_registers;
         RegWrite = 0;
         read_register1 = 5'h1;
         #10;
-        $display("Teste 1 - read_data1: %h (esperado: A5A5A5A5)", read_data1);
+        $display("Teste 1 ($1) - read_data1: %h (esperado: A5A5A5A5)", read_data1);
 
-        // Teste 2: Escreve no registrador 2 e lê do registrador 2
+        // Teste 2: Lê do registrador 0 (deve ser sempre 0)
+        #10;
+        write_register = 5'h0;
+        RegWrite = 1;
+        #10;
+        RegWrite = 0;
+        read_register2 = 5'h0;
+        #10;
+        $display("Teste 2 ($0) - read_data2: %h (esperado: 00000000)", read_data2);
+
+        // Teste 3: Escreve no registrador 2 e lê do registrador 2
         #10;
         write_data = 32'h42424242;
         write_register = 5'h2;
@@ -59,26 +71,29 @@ module tb_registers;
         RegWrite = 0;
         read_register2 = 5'h2;
         #10;
-        $display("Teste 2 - read_data2: %h (esperado: 42424242)", read_data2);
+        $display("Teste 3 ($2) - read_data2: %h (esperado: 42424242)", read_data2);
 
-        // Teste 3: Lê do registrador 0 (deve ser sempre 0)
+        // Teste 4: Escreve no registrador 10 e lê do registrador 10
         #10;
-        write_register = 5'h0;
+        write_data = 32'h12345678;
+        write_register = 5'hA;
         RegWrite = 1;
         #10;
         RegWrite = 0;
-        read_register1 = 5'h0;
+        read_register1 = 5'hA;
         #10;
-        $display("Teste 3 - read_data1: %h (esperado: 00000000)", read_data1);
+        $display("Teste 4 ($10) - read_data2: %h (esperado: 12345678)", read_data1);
 
-        // Teste 4: Reseta e lê o registrador 2
+        // Teste 5: Reseta e lê os registradores 2 e 10
         #10;
-        rst = 0;
+        rst = 1;
         #10;
-        $display("Teste 4 - read_data2: %h (esperado: 00000000)", read_data2);
+        $display("Resetando...");
+        $display("Teste 5 ($10) - read_data1: %h (esperado: 00000000)", read_data1);
+        $display("Teste 5 ($2)  - read_data2: %h (esperado: 00000000)", read_data2);
         
         // Finaliza a simulação
-        $stop;
+        $finish;
     end
 
 endmodule

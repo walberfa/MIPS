@@ -8,6 +8,6 @@ Microprocessor without interlocked pipeline stages (MIPS), sendo desenvolvido na
 - [x] ULAControl
 - [x] Sign Extend 16 to 32
 - [ ] Instruction Memory
-- [ ] Data Memory
+- [x] Data Memory
 - [x] Program Control
 - [x] Mux's
