@@ -1,22 +1,22 @@
 `timescale  1ns/10ps
 
 module datapath(
-    input logic [31:0] instruction,
+    input logic [31:0] instruction, write_data,
     input logic ALUScr, RegWrite, RegDst, MemRead, MemWrite, MemtoReg,
     input logic [3:0] ALUControl,
     input logic clk, rst,
-    output logic [31:0] ALUResult, out32, read_data,
+    output logic [31:0] ALUResult, out32, w_scrB,
     output logic Zero
 );
 
 logic [4:0] mux1_output;
-logic [31:0] scrA, scrB, w_scrB;
+logic [31:0] scrA, scrB;
 
     registers registers_inst(
         .read_register1(instruction[25:21]),
         .read_register2(instruction[20:16]),
         .write_register(mux1_output),
-        .write_data(read_data),
+        .write_data(write_data),
         .RegWrite(RegWrite),
         .clk(clk), 
         .rst(rst), 
@@ -49,17 +49,6 @@ logic [31:0] scrA, scrB, w_scrB;
         .ALUControl(ALUControl),
         .ALUResult(ALUResult),
         .Zero(Zero)
-    );
-
-    data_memory data_memory_inst(
-        .address(ALUResult),
-        .write_data(w_scrB),
-        .MemRead(MemRead),
-        .MemWrite(MemWrite),
-        .MemtoReg(MemtoReg),
-        .rst(rst),
-        .clk(clk),
-        .read_data(read_data)
     );
 
 endmodule

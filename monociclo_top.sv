@@ -2,14 +2,12 @@
 
 module monociclo_top(
     input logic clk, rst,
-    output logic [31:0] instruction, ALUResult,
+    output logic [31:0] instruction, write_data, 
+    output logic [3:0] operation,
     output logic Zero
 );
 
-logic [31:0] write_data, pc, out32;
-logic [5:0] op_code, funct_field;
-logic [3:0] operation;
-logic [1:0] ALUOp;
+logic [31:0] pc, out32, ALUResult, w_scrB;
 logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
 
     control control_inst(
@@ -31,11 +29,15 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
         .ALUScr(ALUScr),
         .RegWrite(RegWrite),
         .RegDst(RegDst),
+        .MemRead(MemRead),
+        .MemWrite(MemWrite),
+        .MemtoReg(MemtoReg),
         .ALUControl(operation),
         .clk(clk),
         .rst(rst),
         .ALUResult(ALUResult),
         .Zero(Zero),
+        .w_scrB(w_scrB),
         .out32(out32)
     );
 
@@ -45,12 +47,13 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
     );
 
     data_memory data_memory_inst(
-        .write_data(write_data),
+        .write_data(w_scrB),
         .address(ALUResult),
         .MemRead(MemRead),
         .MemWrite(MemWrite),
         .MemtoReg(MemtoReg),
         .rst(rst),
+        .clk(clk),
         .read_data(write_data)
     );
 

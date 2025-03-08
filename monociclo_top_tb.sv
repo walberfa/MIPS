@@ -4,7 +4,8 @@ module tb_monociclo_top;
     logic clk;
     logic rst;
     logic [31:0] instruction;
-    logic [31:0] ALUResult;
+    logic [31:0] write_data;
+    logic [3:0] operation;
     logic Zero;
 
     // Instancia o módulo monociclo_top
@@ -12,7 +13,8 @@ module tb_monociclo_top;
         .clk(clk),
         .rst(rst),
         .instruction(instruction),
-        .ALUResult(ALUResult),
+        .write_data(write_data),
+        .operation(operation),
         .Zero(Zero)
     );
 
@@ -21,23 +23,30 @@ module tb_monociclo_top;
 
     initial begin
         // Inicializa os sinais
-        clk = 0;
+        clk = 1;
         rst = 1;
 
-        // Aplica reset
+        // Desliga o reset
         #10;
         rst = 0;
 
+        // Inicializa os registradores
+        dut.datapath_inst.registers_inst.data[17] = 32'h00000004; // $s1 = 4
+        dut.datapath_inst.registers_inst.data[18] = 32'h00000002; // $s2 = 2
+
+        // Inicializa a memória
+        dut.data_memory_inst.memory[5] = 32'h0000000A; // Memória no endereço $5 = 10
+        
         // Espera algumas instruções serem executadas
-        #100;
+        #50;
 
         // Finaliza a simulação
         $finish;
     end
 
     initial begin
-        $display("              Tempo   instruction    ALUResult   Zero");
-        $monitor($time, " %b %b %b", instruction, ALUResult, Zero);
+        $display("              Tempo   instruction   write_data   operation   Zero");
+        $monitor($time, "   %h      %h      %b      %b", instruction, write_data, operation, Zero);
     end
 
 endmodule
