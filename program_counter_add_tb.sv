@@ -6,7 +6,7 @@ module program_counter_tb();
     logic clk;
     logic [31:0] pc;
 
-    program_counter_add pc_uut(
+    program_counter_add pc_dut(
         .shift_left_in(shift_left_in),
         .Branch(Branch),
         .Zero(Zero),

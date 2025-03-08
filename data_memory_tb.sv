@@ -9,7 +9,7 @@ module tb_data_memory;
     logic [31:0] read_data;
 
     // Instancia o módulo data_memory
-    data_memory uut (
+    data_memory data_memory_tb (
         .address(address),
         .write_data(write_data),
         .MemRead(MemRead),

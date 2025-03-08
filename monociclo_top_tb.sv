@@ -8,7 +8,7 @@ module tb_monociclo_top;
     logic Zero;
 
     // Instancia o módulo monociclo_top
-    monociclo_top uut (
+    monociclo_top dut (
         .clk(clk),
         .rst(rst),
         .instruction(instruction),
