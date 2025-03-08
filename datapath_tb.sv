@@ -175,9 +175,9 @@ module tb_datapath;
         $display(" $t3: %h (esperado: 0000000A)", datapath1.registers_inst.data[11]);
 
         // Teste da instrução BEQ
-        // BEQ $t0, $t3, 1
+        // BEQ $t0, $t3, 4
         #10;
-        instruction = 32'h110B0001; // BEQ $t0, $t3, 1
+        instruction = 32'h110B0004; // BEQ $t0, $t3, 4
         ALUScr = 0;
         RegWrite = 0;
         MemRead = 0;
@@ -185,7 +185,7 @@ module tb_datapath;
         ALUControl = 4'b0110;
         #30;
         $display("+------TESTE BEQ------+");
-        $display("+---BEQ $t0, $t3, 1---+");
+        $display("+---BEQ $t0, $t3, 4---+");
         $display(" opcode: %b", instruction[31:26]);
         $display(" rs:     %b", instruction[25:21]);
         $display(" rt:     %b", instruction[20:16]);
