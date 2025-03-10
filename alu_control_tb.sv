@@ -1,3 +1,9 @@
+/*
+Testbench para validar o controle da ULA
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module ALU_control_tb();

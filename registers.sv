@@ -1,15 +1,22 @@
+/*
+Banco de registradores
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module registers (
-        input logic [31:0] write_data,
-        input logic [4:0] read_register1, read_register2, write_register,
-        input logic RegWrite,
-        input logic clk, rst,
-        output logic [31:0] read_data1, read_data2
+        input logic [31:0] write_data,                      // dado a ser escrito no registrador
+        input logic [4:0] read_register1, read_register2,   // indica quais registradores serão lidos
+        input logic [4:0] write_register,                   // indica qual registrador será lido
+        input logic RegWrite,                               // habilita o registrador para escrita
+        input logic clk, rst,                               // clock e reset
+        output logic [31:0] read_data1, read_data2          // saída lido nos registradores
     );
 
-    reg [31:0][31:0] data;
-    reg [31:0] en;
+    reg [31:0][31:0] data;      // dados armazenados nos registradores
+    reg [31:0] en;              // controla a habilitação de escrita
 
     // Banco de registradores
     genvar i;  

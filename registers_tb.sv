@@ -1,3 +1,9 @@
+/*
+Testbench para validar o funcionamento do banco de registradores
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module tb_registers;

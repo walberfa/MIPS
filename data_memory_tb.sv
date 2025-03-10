@@ -1,3 +1,9 @@
+/*
+Testbench para validar a memória de dados
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module tb_data_memory;

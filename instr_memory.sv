@@ -1,8 +1,14 @@
+/*
+Módulo da memória de instruções
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module instr_memory (
-    input logic [31:0] read_address,
-    output logic [31:0] instruction
+    input logic [31:0] read_address, // indica o endereço onde começa a instrução a ser lida
+    output logic [31:0] instruction  // instrução a ser executada
 );
 
     // Definindo a memória como um array de 256 palavras de 8 bits

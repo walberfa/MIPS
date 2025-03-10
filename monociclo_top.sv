@@ -1,8 +1,16 @@
+/*
+Topo do projeto - Módulo Monociclo
+Instancia todos os componentes do processador monociclo
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module monociclo_top(
-    input logic clk, rst,
-    output logic [31:0] instruction, write_data, 
+    input logic clk, rst,   // clock e reset globais
+    // saídas usadas apenas para visualização dos resultados na execução do testbench
+    output logic [31:0] instruction, write_data,
     output logic [3:0] operation,
     output logic Zero
 );
@@ -10,6 +18,7 @@ module monociclo_top(
 logic [31:0] pc, out32, ALUResult, w_scrB;
 logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
 
+    // instancia do módulo de controle geral
     control control_inst(
         .op_code(instruction[31:26]),
         .funct_field(instruction[5:0]),
@@ -23,6 +32,7 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
         .operation(operation)
     );
 
+    // instancia do caminho de dados
     datapath datapath_inst(
         .instruction(instruction),
         .write_data(write_data),
@@ -41,11 +51,13 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
         .out32(out32)
     );
 
+    // instancia da memória de instruções
     instr_memory instr_memory_inst(
         .read_address(pc),
         .instruction(instruction)
     );
 
+    // instancia da memória de dados
     data_memory data_memory_inst(
         .write_data(w_scrB),
         .address(ALUResult),
@@ -57,6 +69,7 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
         .read_data(write_data)
     );
 
+    // instancia do contador de programa
     program_counter_add program_counter_inst(
         .shift_left_in(out32),
         .Branch(Branch),
@@ -66,4 +79,4 @@ logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch;
         .pc(pc)
     );
 
-endmodule
+endmodule : monociclo_top

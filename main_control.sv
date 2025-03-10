@@ -1,3 +1,10 @@
+/*
+Controle principal do processador
+Gerencia as flags de controle baseado na entrada de op_code (instruction [31:26])
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module main_control(
@@ -5,9 +12,7 @@ module main_control(
     output logic RegDst, ALUScr, MemtoReg, RegWrite, MemRead, MemWrite, Branch, ALUOp1, ALUOp0
 );
 
-    always_comb
-
-    begin  
+    always_comb begin
         RegDst = 1'bx;
         ALUScr = 1'bx;
         MemtoReg = 1'bx;

@@ -1,3 +1,9 @@
+/*
+Testbench para validar o controle principal
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module main_control_tb();
@@ -18,16 +24,16 @@ module main_control_tb();
     );
 
     initial begin
-        op_code = 6'b000000;
+        op_code = 6'b000000; // espera as flags para R-format
         #10;
 
-        op_code = 6'b100011;
+        op_code = 6'b100011; // espera as flags para LW
         #10;
 
-        op_code = 6'b101011;
+        op_code = 6'b101011; // espera as flags para SW
         #10;
 
-        op_code = 6'b000100;
+        op_code = 6'b000100; // espera as flags para BEQ
         #10;
     end
 

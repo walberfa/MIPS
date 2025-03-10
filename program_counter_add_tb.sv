@@ -1,3 +1,11 @@
+/*
+Testbench para validar o módulo do contador de programa
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
+`timescale  1ns/10ps
+
 module program_counter_tb();
     logic [31:0] shift_left_in;
     logic Branch;

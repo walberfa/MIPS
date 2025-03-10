@@ -1,10 +1,16 @@
+/*
+Unidade Lógica e Aritmética (ULA)
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale  1ns/10ps
 
 module ALU(
-    input logic [31:0] scrA, scrB,
-    input logic [3:0] ALUControl,
-    output logic [31:0] ALUResult,
-    output logic Zero
+    input logic [31:0] scrA, scrB,  // entradas da ULA
+    input logic [3:0] ALUControl,   // controle da ULA
+    output logic [31:0] ALUResult,  // resultado da operação
+    output logic Zero               // flag - indica se a operação é igual a zero
 );
 
   always_comb begin
@@ -22,4 +28,4 @@ module ALU(
     else Zero = 0;
   end
     
-endmodule
+endmodule : ALU

@@ -1,8 +1,7 @@
 /*
 Unidade de extensão de sinal (de 16 para 32 bits)
 Autor: Walber Florencio
-Polo UFC
-29 Nov 24
+CI Inovador - Polo UFC
 */
 
 `timescale  1 ns/10ps

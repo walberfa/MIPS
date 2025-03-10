@@ -1,9 +1,15 @@
+/*
+Controla as operações da ULA de acordo com AULOp e function field
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module ALU_control(
-    input logic [1:0] ALUOp,
-    input logic [5:0] funct_field,
-    output logic [3:0] operation
+    input logic [1:0] ALUOp,        // Indica qual operação deve ser realizada
+    input logic [5:0] funct_field,  // Indica qual operação deve ser realizada
+    output logic [3:0] operation    // Código da operação a ser realizada
 );
 
     always_comb

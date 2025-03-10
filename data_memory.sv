@@ -1,17 +1,23 @@
+/*
+Módulo com a memória de dados e MUX na saída
+Autor: Walber Florencio
+CI Inovador - Polo UFC
+*/
+
 `timescale 1ns/10ps
 
 module data_memory (
-    input logic [31:0] address,
-    input logic [31:0] write_data,
-    input logic MemRead,
-    input logic MemWrite,
-    input logic MemtoReg,
-    input logic rst,
-    input logic clk,
-    output logic [31:0] read_data
+    input logic [31:0] address,        // endereço a ser acessado na memória
+    input logic [31:0] write_data,     // dado a ser escrito na memória
+    input logic MemRead,               // flag - indica que a memória deve ser lida
+    input logic MemWrite,              // flag - indica que a memória deve ser escrita
+    input logic MemtoReg,              // flag - indica se a saída vem da memória ou da ULA
+    input logic rst,                   // reset
+    input logic clk,                   // clock
+    output logic [31:0] read_data      // dado de saída do módulo
 );
 
-    logic [31:0] data_from_mem, data_from_alu;
+    logic [31:0] data_from_mem, data_from_alu; // armazenam os dados de saída da memória e da ULA
 
     // Definindo a memória como um array de 256 palavras de 32 bits
     logic [31:0] memory [255:0];
