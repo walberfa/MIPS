@@ -31,20 +31,21 @@ module data_memory (
         end
     end
     
-    always_ff @(posedge clk) begin
+    always_comb begin
         if (MemWrite) begin
             // Escreve o dado na memória na posição especificada por address
-            memory[address] <= write_data;
+            memory[address] = write_data;
         end
         if (MemRead) begin
             // Lê o dado da memória na posição especificada por address
-            data_from_mem <= memory[address];
+            data_from_mem = memory[address];
         end
+        if (rst) data_from_mem = 32'b0;
     end
 
     /*
     MUX que seleciona a saída da memória ou da ALU. 
-    Se MemtoReg estiver ativo, a saída vem da memória, caso contrário, da ALU.
+    Se MemtoReg estiver ativo (1), a saída vem da memória, caso contrário, da ALU.
     */
     always_comb begin
         if (rst) read_data = 32'b0;

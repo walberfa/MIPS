@@ -49,7 +49,7 @@ module tb_datapath;
 
     initial begin
         // Inicializa os sinais
-        clk = 1;
+        clk = 0;
         rst = 1;
         instruction = 32'h00000000;
         write_data = 32'h00000000;

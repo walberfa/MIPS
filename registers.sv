@@ -7,70 +7,35 @@ CI Inovador - Polo UFC
 `timescale 1ns/10ps
 
 module registers (
-        input logic [31:0] write_data,                      // dado a ser escrito no registrador
-        input logic [4:0] read_register1, read_register2,   // indica quais registradores serão lidos
-        input logic [4:0] write_register,                   // indica qual registrador será lido
-        input logic RegWrite,                               // habilita o registrador para escrita
-        input logic clk, rst,                               // clock e reset
-        output logic [31:0] read_data1, read_data2          // saída lido nos registradores
-    );
-
-    reg [31:0][31:0] data;      // dados armazenados nos registradores
-    reg [31:0] en;              // controla a habilitação de escrita
-
-    // Banco de registradores
-    genvar i;  
-    generate
-        for (i = 0; i < 32; i++) begin
-            if (i==0)
-                register32 reg0(.write_data(write_data), .en(en[0]), .clk(clk), .rst(1'b1),.data(data[0])); // Registrador 0 não permite ser escrito
-            else
-                register32 regx(.write_data(write_data), .en(en[i]), .clk(clk), .rst(rst), .data(data[i])); // Cria os outros 31 registradores
-        end
-    endgenerate
-
-    // Saídas
-    read_out out1(.read_register(read_register1), .data(data), .read_data(read_data1)); // Instancia a saída 1
-    read_out out2(.read_register(read_register2), .data(data), .read_data(read_data2)); // Instancia a saída 2
-
-
-    //Lógica para habilitar escrita nos registradores
-    always_comb begin
-        en = 32'd0;
-
-        if(RegWrite) begin    
-            for (int j = 0; j < 32; j++)
-                if(write_register==j) en[j] = 1'b1;
-            end
-    end
-
-endmodule
-
-
-// Módulo do registrador
-module register32(
+    input logic clk,
+    input logic rst,
+    input logic RegWrite,
+    input logic [4:0] read_register1,
+    input logic [4:0] read_register2,
+    input logic [4:0] write_register,
     input logic [31:0] write_data,
-    input logic clk, rst, en,
-    output reg [31:0] data
-    );
+    output logic [31:0] read_data1,
+    output logic [31:0] read_data2
+);
 
-    always_ff @ (posedge clk) begin
-        if (~rst&en) data = write_data;
-        else if (~rst&~en) data = data;
-        else data = 'd0;
+    // Definindo os 32 registradores de 32 bits
+    logic [31:0] data [31:0];
+
+    // Inicializa os registradores com zero no reset
+    always_ff @(posedge clk or posedge rst) begin
+        if (rst) begin
+            for (int i = 0; i < 32; i++) begin
+                data[i] <= 32'b0;
+            end
+        end else if (RegWrite) begin
+            if (write_register != 5'b0) begin           // Registrador 0 sempre é zero
+                data[write_register] <= write_data;     // Escreve no registrador
+            end
+        end
     end
 
-endmodule
-
-// Módulo para fazer a leitura do dado da saída
-module read_out(
-    input logic [4:0] read_register,
-    logic [31:0][31:0] data,
-    output logic [31:0] read_data);
-
-    always_comb begin
-        for (int l = 0; l < 32; l++)
-            if(read_register==l) read_data = data[l];
-    end
+    // Leitura dos registradores
+    assign read_data1 = (read_register1 != 5'b0) ? data[read_register1] : 32'b0;
+    assign read_data2 = (read_register2 != 5'b0) ? data[read_register2] : 32'b0;
 
 endmodule
